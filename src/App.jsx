@@ -1,10 +1,18 @@
 import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
+import Unavilable from "./pages/unavilable";
 
-function App() {
-  return <p className="h1">hello</p>;
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="*" element={<Unavilable />} />
+    </Routes>
+  );
 }
-
-export default App;
 
 /* 
 

@@ -1,1 +1,7 @@
- 
+html {
+  height: 100dvh;
+}
+body,
+#root {
+  height: 100%;
+}
