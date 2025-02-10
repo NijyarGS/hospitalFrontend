@@ -3,5 +3,10 @@
   "username": "Username",
   "password": "Password",
   "submit": "Submit",
-  "contact": "In case of forgetting your password, contact IT department"
+  "contact": "In case of forgetting your password, contact IT department",
+  "error": {
+    "username": "Username does not exist",
+    "password": "Incorrect Password",
+    "invalid": "Username and Password are required"
+  }
 }
