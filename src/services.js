@@ -1,5 +1,18 @@
-export function getCasesData() {
-  return getMockData(caseData);
+export async function getCasesData() {
+  const res = await getMockData(caseData);
+  return res;
+}
+
+export async function getUserData(data) {
+  const res = await getMockData(userData);
+
+  if (data.username && data.password) {
+    if (data.username !== userData[1].username)
+      return messagesObject(false, "error.username");
+    if (data.password !== userData[1].password)
+      return messagesObject(false, "error.password");
+    else return messagesObject(true, "Success");
+  } else return messagesObject(false, "error.invalid");
 }
 
 function getMockData(Data) {
@@ -73,3 +86,21 @@ const status = [
   { value: "Active", id: 1 },
   { value: "Done", id: 2 },
 ];
+
+const userData = [
+  {
+    username: "Ahmed",
+    password: "12345678",
+  },
+  {
+    username: "test",
+    password: "test",
+  },
+];
+
+const messagesObject = (succed, message) => {
+  return {
+    status: succed ? "success" : "error",
+    message: message,
+  };
+};
