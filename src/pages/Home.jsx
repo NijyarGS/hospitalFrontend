@@ -9,3 +9,13 @@ export default function Home() {
     </div>
   );
 }
+
+// Filters Design
+// Filters apply to cases
+// Casses Fetch
+// Casses all condition rendering
+// Casses Page Redisign
+// Translate to arabic
+
+// Finish status Filter
+// Finish Doctor id filteration and data structure

@@ -1,6 +1,57 @@
-import { Fragment } from "react";
+/* eslint-disable react/prop-types */
+import { Fragment, useEffect, useState } from "react";
+import { getCasesData } from "../services";
+import CaseFilter from "./CaseFilter";
 
 export default function Cases() {
+  const [cases, setCases] = useState([]);
+  const [filteredCase, setFilteredCases] = useState([]);
+  const filterObject = {
+    patient: "",
+    doctorId: "",
+    beginDate: "",
+    endDate: "",
+    status: { open: false, close: false },
+  };
+  const [filters, setFilters] = useState(filterObject);
+  const [filterView, setFiltersView] = useState(false);
+
+  function handleSetFilter(filterData) {
+    setFilters(filterData);
+  }
+
+  useEffect(() => {
+    const FinalData = cases
+      .filter((e) =>
+        filters.patient
+          ? e.patient
+              .toLocaleLowerCase()
+              .includes(filters.patient.toLocaleLowerCase())
+          : true
+      )
+      .filter((e) =>
+        filters.doctor
+          ? e.doctorId
+              .toLocaleLowerCase()
+              .includes(filters.doctor.toLocaleLowerCase())
+          : true
+      )
+      .filter((e) =>
+        filters.beginDate ? e.dateOfEntery > filters.beginDate : true
+      )
+      .filter((e) =>
+        filters.endDate ? e.dateOfEntery < filters.endDate : true
+      );
+
+    setFilteredCases(FinalData);
+  }, [filters, cases]);
+
+  useEffect(() => {
+    getCasesData().then((response) => {
+      setCases(response);
+    });
+  }, []);
+
   return (
     <Fragment>
       <div className="d-flex justify-content-between mb-4">
@@ -21,6 +72,12 @@ export default function Cases() {
           </div>
         </div>
       </div>
+
+      <CaseFilter
+        filterObject={filterObject}
+        handleSetFilter={handleSetFilter}
+      />
+
       <div className="card text-bg-light">
         <div className="card-body px-0 pt-0">
           <div className="table-responsive">
@@ -31,16 +88,11 @@ export default function Cases() {
                   <th>Doctor</th>
                   <th>Date</th>
                   <th>Status</th>
-                  <th className="pe-3">Actions</th>
+                  <th className="pe-3 text-end">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <TableData />
-                <TableData />
-                <TableData />
-                <TableData />
-                <TableData />
-                <TableData />
+                <TableData cases={filteredCase} />
               </tbody>
             </table>
           </div>
@@ -50,14 +102,22 @@ export default function Cases() {
   );
 }
 
-function TableData() {
+function TableData({ cases }) {
+  return cases && cases.length > 0
+    ? cases.map((indCase, index) => (
+        <TableRow key={"case" + index} indCase={indCase} />
+      ))
+    : null;
+}
+
+function TableRow({ indCase }) {
   return (
     <tr>
-      <td className="ps-3">lorem</td>
-      <td>lorem</td>
-      <td>1/1/2001</td>
-      <td>Done</td>
-      <td className="pe-3">action</td>
+      <td className="ps-3">{indCase.patient}</td>
+      <td>{indCase.doctorId}</td>
+      <td>{indCase.dateOfEntery}</td>
+      <td>{indCase.status}</td>
+      <td className="text-end pe-3">action</td>
     </tr>
   );
 }
