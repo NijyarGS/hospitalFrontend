@@ -4,7 +4,7 @@ export async function getCasesData() {
 }
 
 export async function getUserData(data) {
-  const res = await getMockData(userData);
+  // const res = await getMockData(userData);
 
   if (data.username && data.password) {
     if (data.username !== userData[1].username)
