@@ -16,6 +16,10 @@ export default function Cases() {
   const [filters, setFilters] = useState(filterObject);
   const [filterView, setFiltersView] = useState(false);
 
+  function handleSetFilterView(value = null) {
+    value ? setFiltersView(value) : setFiltersView(!filterView);
+  }
+
   function handleSetFilter(filterData) {
     setFilters(filterData);
   }
@@ -63,20 +67,26 @@ export default function Cases() {
         </div>
         <div>
           <div className="btn-group">
-            <button className="btn btn-light btn-sm">
-              <i className="bi bi-funnel"></i>
-            </button>
+            <div className="position-relative">
+              <button
+                className="btn btn-light btn-sm"
+                onClick={handleSetFilterView}
+              >
+                <i className="bi bi-funnel" />
+              </button>
+              <CaseFilter
+                filterView={filterView}
+                handleSetFilterView={handleSetFilterView}
+                filterObject={filterObject}
+                handleSetFilter={handleSetFilter}
+              />
+            </div>
             <button className="btn btn-light btn-sm">
               <i className="bi bi-sort-down"></i>
             </button>
           </div>
         </div>
       </div>
-
-      <CaseFilter
-        filterObject={filterObject}
-        handleSetFilter={handleSetFilter}
-      />
 
       <div className="card text-bg-light">
         <div className="card-body px-0 pt-0">
