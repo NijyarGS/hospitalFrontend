@@ -2,12 +2,16 @@
 
 import { useState } from "react";
 
-export default function CaseFilter({ filterObject, handleSetFilter }) {
+export default function CaseFilter({
+  filterView,
+  handleSetFilterView,
+  filterObject,
+  handleSetFilter,
+}) {
   const [patient, setPatient] = useState(filterObject.patient);
   const [doctor, setDoctor] = useState(filterObject.doctor);
   const [beginDate, setBeginDate] = useState(filterObject.beginDate);
   const [endDate, setEndDate] = useState(filterObject.endDate);
-
   const [status, setStatus] = useState(filterObject.status);
 
   function submitfilter() {
@@ -19,34 +23,84 @@ export default function CaseFilter({ filterObject, handleSetFilter }) {
       status: { open: status.open, close: status.close },
     };
     handleSetFilter(ValidData);
+    handleClose();
+  }
+  function clearFilter() {
+    const ValidData = {
+      patient: "",
+      doctorId: "",
+      beginDate: "",
+      endDate: "",
+      status: { open: false, close: false },
+    };
+    handleSetFilter(ValidData);
+    handleClose();
+  }
+
+  function handleClose() {
+    handleSetFilterView(false);
   }
 
   return (
-    <div style={{ maxWidth: "300px" }}>
-      <TextInput title="Patient" value={patient} setValue={setPatient} />
-      <TextInput
-        title="Doctor (convert to drop down)"
-        value={doctor}
-        setValue={setDoctor}
-      />
-      <DateInput title="From" value={beginDate} setValue={setBeginDate} />
-      <DateInput title="To" value={endDate} setValue={setEndDate} />
-      <StatusInput
-        statusTypes={filterObject.status}
-        title="Status"
-        value={status}
-        setValue={setStatus}
-      />
-      <button type="submit" className="btn btn-primary" onClick={submitfilter}>
-        Submit
-      </button>
-    </div>
+    filterView && (
+      <div className="position-absolute z-1 mt-1 end-0">
+        <div className="card w-100">
+          <div className="card-body">
+            <div className="mb-3 pb-3 d-flex justify-content-between align-items-center">
+              <h5 className="card-title mb-0">Filter</h5>
+              <button className="btn-close small" onClick={handleClose} />
+            </div>
+            <TextInput title="Patient" value={patient} setValue={setPatient} />
+            <TextInput
+              title="Doctor (convert to drop down)"
+              value={doctor}
+              setValue={setDoctor}
+            />
+            <DropDownInput />
+
+            <div className="d-flex gap-2 mb-3">
+              <DateInput
+                title="From"
+                value={beginDate}
+                setValue={setBeginDate}
+              />
+              <DateInput title="To" value={endDate} setValue={setEndDate} />
+            </div>
+            <StatusInput
+              statusTypes={filterObject.status}
+              title="Status"
+              value={status}
+              setValue={setStatus}
+            />
+          </div>
+
+          <hr className="mx-3 my-0" />
+
+          <div className="p-3 d-flex justify-content-stretch gap-2">
+            <button
+              type="submit"
+              className="btn btn-outline-secondary w-100"
+              onClick={clearFilter}
+            >
+              Clear
+            </button>
+            <button
+              type="submit"
+              className="btn btn-primary w-100"
+              onClick={submitfilter}
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    )
   );
 }
 
 const TextInput = ({ title, value, setValue }) => {
   return (
-    <div className="">
+    <div className="mb-3">
       <label className="form-label">{title}</label>
       <input
         className="form-control"
@@ -54,6 +108,19 @@ const TextInput = ({ title, value, setValue }) => {
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
+    </div>
+  );
+};
+
+const DropDownInput = ({}) => {
+  return (
+    <div className="mb-3">
+      <label className="form-label">Select</label>
+      <select className="form-select">
+        <option value="1">Option 1</option>
+        <option value="2">Option 2</option>
+        <option value="3">Option 3</option>
+      </select>
     </div>
   );
 };
