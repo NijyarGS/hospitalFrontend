@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getDoctorsData } from "../services";
 
 export default function CaseFilter({
   filterView,
@@ -51,12 +52,7 @@ export default function CaseFilter({
               <button className="btn-close small" onClick={handleClose} />
             </div>
             <TextInput title="Patient" value={patient} setValue={setPatient} />
-            <TextInput
-              title="Doctor (convert to drop down)"
-              value={doctor}
-              setValue={setDoctor}
-            />
-            <DropDownInput />
+            <DropDownInput title="Doctor" value={doctor} setValue={setDoctor} />
 
             <div className="d-flex gap-2 mb-3">
               <DateInput
@@ -112,14 +108,31 @@ const TextInput = ({ title, value, setValue }) => {
   );
 };
 
-const DropDownInput = ({}) => {
+const DropDownInput = ({ title, value, setValue }) => {
+  const [doctorList, setDoctorList] = useState([]);
+  const renderDoctorList = doctorList && doctorList.length > 0;
+
+  useEffect(() => {
+    getDoctorsData().then((e) => setDoctorList(e));
+  }, []);
+
+  console.log(value);
+
   return (
     <div className="mb-3">
-      <label className="form-label">Select</label>
-      <select className="form-select">
-        <option value="1">Option 1</option>
-        <option value="2">Option 2</option>
-        <option value="3">Option 3</option>
+      <label className="form-label">{title}</label>
+      <select
+        className="form-select"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      >
+        <option value="">Select a doctor</option>
+        {renderDoctorList &&
+          doctorList.map((doc) => (
+            <option key={"docOpt" + doc.id} value={doc.id}>
+              {doc.name}
+            </option>
+          ))}
       </select>
     </div>
   );

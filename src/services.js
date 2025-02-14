@@ -1,3 +1,11 @@
+function getMockData(Data) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(Data);
+    }, 1000);
+  });
+}
+
 export async function getCasesData() {
   const res = await getMockData(caseData);
   return res;
@@ -15,12 +23,9 @@ export async function getUserData(data) {
   } else return messagesObject(false, "error.invalid");
 }
 
-function getMockData(Data) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(Data);
-    }, 1000);
-  });
+export async function getDoctorsData() {
+  const res = await getMockData(doctorData);
+  return res;
 }
 
 const caseData = [
@@ -80,6 +85,13 @@ const caseData = [
     dateOfEntery: "2021-08-15",
     status: 1,
   },
+];
+const doctorData = [
+  { id: 1, name: "Ahmed" },
+  { id: 2, name: "Ali" },
+  { id: 3, name: "Mohamed" },
+  { id: 4, name: "Amr" },
+  { id: 5, name: "Osama" },
 ];
 
 const status = [
