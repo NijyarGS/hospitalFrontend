@@ -10,9 +10,9 @@ export default function Home() {
   );
 }
 
-// Filters Design
-// Filters apply to cases
-// Casses Fetch
+// -- Filters Design --
+// -- Filters apply to cases --
+// -- Casses Fetch  --
 // Casses all condition rendering
 // Casses Page Redisign
 // Translate to arabic
