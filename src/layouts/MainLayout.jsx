@@ -7,10 +7,10 @@ export default function MainLayout() {
 
   return (
     <div className="h-100 d-flex flex-column">
-      <Header />
-      <div className="h-100 position-relative ">
-        <Sidebar sidebarWidth={sidebarWidth} />
-        <main className="p-md-4 p-3 custom_margin_start h-100">
+      <Sidebar sidebarWidth={sidebarWidth} />
+      <div className="d-flex flex-column h-100 custom_margin_start">
+        <Header />
+        <main className="p-md-4 p-3 h-100 bg-body-tertiary">
           <Outlet />
         </main>
       </div>
