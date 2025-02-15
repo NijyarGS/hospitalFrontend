@@ -116,8 +116,6 @@ const DropDownInput = ({ title, value, setValue }) => {
     getDoctorsData().then((e) => setDoctorList(e));
   }, []);
 
-  console.log(value);
-
   return (
     <div className="mb-3">
       <label className="form-label">{title}</label>

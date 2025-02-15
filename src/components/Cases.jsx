@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getCasesData } from "../services";
 import CaseFilter from "./CaseFilter";
 
@@ -20,34 +20,40 @@ export default function Cases() {
     value ? setFiltersView(value) : setFiltersView(!filterView);
   }
 
+  function handleSetPatientNameFilter(patientName) {
+    setFilters((prev) => ({ ...prev, patient: patientName }));
+  }
+
   function handleSetFilter(filterData) {
     setFilters(filterData);
   }
 
   useEffect(() => {
-    const FinalData = cases
-      .filter((e) =>
-        filters.patient
-          ? e.patient
-              .toLocaleLowerCase()
-              .includes(filters.patient.toLocaleLowerCase())
-          : true
-      )
-      .filter((e) =>
-        filters.doctor
-          ? e.doctorId
-              .toLocaleLowerCase()
-              .includes(filters.doctor.toLocaleLowerCase())
-          : true
-      )
-      .filter((e) =>
-        filters.beginDate ? e.dateOfEntery > filters.beginDate : true
-      )
-      .filter((e) =>
-        filters.endDate ? e.dateOfEntery < filters.endDate : true
-      );
+    if (cases) {
+      const FinalData = cases
+        .filter((e) =>
+          filters.patient
+            ? e.patient
+                .toLocaleLowerCase()
+                .includes(filters.patient.toLocaleLowerCase())
+            : true
+        )
+        .filter((e) =>
+          filters.doctor
+            ? e.doctorId
+                .toLocaleLowerCase()
+                .includes(filters.doctor.toLocaleLowerCase())
+            : true
+        )
+        .filter((e) =>
+          filters.beginDate ? e.dateOfEntery > filters.beginDate : true
+        )
+        .filter((e) =>
+          filters.endDate ? e.dateOfEntery < filters.endDate : true
+        );
 
-    setFilteredCases(FinalData);
+      setFilteredCases(FinalData);
+    }
   }, [filters, cases]);
 
   useEffect(() => {
@@ -57,67 +63,116 @@ export default function Cases() {
   }, []);
 
   return (
-    <Fragment>
-      <div className="d-flex justify-content-between mb-4">
-        <div>
-          <button className="btn btn-primary btn-sm">
-            <span className="me-1">Add</span>
-            <i className="bi bi-plus" />
-          </button>
-        </div>
-        <div>
-          <div className="btn-group">
-            <div className="position-relative">
-              <button
-                className="btn btn-light btn-sm"
-                onClick={handleSetFilterView}
-              >
-                <i className="bi bi-funnel" />
-              </button>
-              <CaseFilter
-                filterView={filterView}
-                handleSetFilterView={handleSetFilterView}
-                filterObject={filterObject}
-                handleSetFilter={handleSetFilter}
-              />
-            </div>
-            <button className="btn btn-light btn-sm">
+    <div className="card">
+      <div className="card-header d-flex justify-content-between p-3">
+        <TablePatientSearch
+          value={filters.patient}
+          setValue={handleSetPatientNameFilter}
+        />
+
+        <div className="position-relative">
+          <div className="">
+            <button
+              className="btn btn-light btn-sm border me-2"
+              onClick={handleSetFilterView}
+            >
+              <i className="bi bi-funnel" />
+              <span className="ms-1">Filter</span>
+            </button>
+            <button className="btn btn-light btn-sm border">
               <i className="bi bi-sort-down"></i>
             </button>
           </div>
+          <CaseFilter
+            filterView={filterView}
+            handleSetFilterView={handleSetFilterView}
+            filterObject={filterObject}
+            handleSetFilter={handleSetFilter}
+          />
         </div>
       </div>
+      <div className="card-body px-0 pt-0 pb-0">
+        <div className="table-responsive">
+          <table className="table table-hover table-borderless1 border-light mb-0">
+            <thead className="border-bottom">
+              <tr className="">
+                <th className="ps-3 fw-medium">Patient</th>
+                <th className="fw-medium">Doctor</th>
+                <th className="fw-medium">Date</th>
+                <th className="fw-medium">Status</th>
+                <th className="pe-3 text-end fw-medium">Actions</th>
+              </tr>
+            </thead>
 
-      <div className="card text-bg-light">
-        <div className="card-body px-0 pt-0">
-          <div className="table-responsive">
-            <table className="table table-hover table-borderless">
-              <thead className="table-secondary">
-                <tr>
-                  <th className="ps-3">Patient</th>
-                  <th>Doctor</th>
-                  <th>Date</th>
-                  <th>Status</th>
-                  <th className="pe-3 text-end">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <TableData cases={filteredCase} />
-              </tbody>
-            </table>
-          </div>
+            <tbody>
+              <TableData filteredCase={filteredCase} cases={cases} />
+            </tbody>
+          </table>
         </div>
       </div>
-    </Fragment>
+      <div className="card-footer bg-white p-3 flex-wrap d-flex flex-column flex-md-row justify-content-between">
+        <CardFooterDataNumber />
+        <CardFooterPagenation />
+      </div>
+    </div>
   );
 }
 
-function TableData({ cases }) {
-  return cases && cases.length > 0
-    ? cases.map((indCase, index) => (
-        <TableRow key={"case" + index} indCase={indCase} />
-      ))
-    : null;
+function TableData({ cases, filteredCase }) {
+  const renderPlaceholder = cases.length === 0;
+  const renderTable = cases.length > 0 && filteredCase.length > 0;
+  const renderNotfound = cases.length > 0 && filteredCase.length === 0;
+
+  if (renderPlaceholder) {
+    return <PlaceholderData />;
+  }
+  if (renderTable) {
+    return filteredCase.map((indCase, index) => (
+      <TableRow key={"case" + index} indCase={indCase} />
+    ));
+  }
+  if (renderNotfound) {
+    return <NotFoundData />;
+  }
+}
+
+function PlaceholderData() {
+  const placeHolderArray = Array.from(Array(10).keys());
+
+  return placeHolderArray.map((e) => (
+    <tr key={"placeholder" + e} className="placeholder-glow">
+      <td>
+        <span className="placeholder col-12 rounded"></span>
+      </td>
+      <td>
+        <span className="placeholder col-12 rounded"></span>
+      </td>
+      <td>
+        <span className="placeholder col-12 rounded"></span>
+      </td>
+      <td>
+        <span className="placeholder col-4 rounded-pill"></span>
+      </td>
+      <td className="text-end">
+        <span className="placeholder col-4 rounded"></span>
+      </td>
+    </tr>
+  ));
+}
+
+function NotFoundData() {
+  return (
+    <tr>
+      <td colSpan="100">
+        <div className="text-secondary fw-light fst-italic d-flex justify-content-center">
+          <span className="mx-2">No Cases found</span>
+          <span style={{ transform: "scale(-1, 1)" }}>
+            <i className="bi bi-search" />
+          </span>
+        </div>
+      </td>
+    </tr>
+  );
 }
 
 function TableRow({ indCase }) {
@@ -129,5 +184,79 @@ function TableRow({ indCase }) {
       <td>{indCase.status}</td>
       <td className="text-end pe-3">action</td>
     </tr>
+  );
+}
+
+function CardFooterPagenation() {
+  const pageNationValueArr = ["1", "2", "3", "4"];
+  const PagenationButton = ({ children }) => (
+    <button
+      type="button"
+      className="btn btn-outline-secondary px-2  btn-sm fw-light"
+    >
+      {children}
+    </button>
+  );
+  return (
+    <div className="btn-group me-2 align-self-md-stretch align-self-center mt-4 mt-md-0">
+      <PagenationButton>
+        <i className="bi bi-caret-left" />
+        <span className="d-lg-inline d-none ms-1">Previous</span>
+      </PagenationButton>
+      {pageNationValueArr.map((e) => (
+        <PagenationButton key={"pagenationButton" + e}>{e}</PagenationButton>
+      ))}
+      <PagenationButton>
+        <span className="d-lg-inline d-none me-1">Next</span>
+        <i className="bi bi-caret-right" />
+      </PagenationButton>
+    </div>
+  );
+}
+
+function CardFooterDataNumber() {
+  const [itemPerPage, setItemPerPage] = useState(10);
+  const ammountOptions = [10, 25, 50];
+  return (
+    <div className="small text-mute text-secondary fw-light">
+      <span>Result 1-{itemPerPage} of 300 </span>
+      <select
+        value={itemPerPage}
+        onChange={(e) => setItemPerPage(e.target.value)}
+        className="form-select form-select-sm d-inline w-auto text-secondary "
+      >
+        {ammountOptions.map((ammount) => (
+          <option key={"option" + ammount} value={ammount}>
+            {ammount}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+function TablePatientSearch({ value, setValue }) {
+  const [searchVal, setSearchVal] = useState(value);
+
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    setValue(searchVal);
+  }
+
+  return (
+    <form onSubmit={handleFormSubmit}>
+      <div className="input-group">
+        <button className="btn btn-sm btn-light border-top border-start border-bottom">
+          <i className="bi bi-search" />
+        </button>
+        <input
+          type="text"
+          className="form-control form-control-sm"
+          placeholder="Search patient..."
+          value={searchVal}
+          onChange={(e) => setSearchVal(e.target.value)}
+        />
+      </div>
+    </form>
   );
 }
