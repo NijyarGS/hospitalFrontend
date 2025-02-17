@@ -75,7 +75,7 @@ export default function Cases() {
           setViewEditCase={setViewEditCase}
         />
       )}
-      <div className="card-header d-flex justify-content-between p-3">
+      <div className="card-header d-flex justify-content-between p-3 flex-wrap gap-3">
         <TablePatientSearch
           value={filters.patient}
           setValue={handleSetPatientNameFilter}
