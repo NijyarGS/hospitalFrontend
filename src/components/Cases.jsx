@@ -16,13 +16,8 @@ export default function Cases() {
     status: { open: false, close: false },
   };
   const [filters, setFilters] = useState(filterObject);
-  const [filterView, setFiltersView] = useState(false);
   const [viewEditCase, setViewEditCase] = useState(false);
   const [caseEditData, setCaseEditData] = useState("");
-
-  function handleSetFilterView(value = null) {
-    value ? setFiltersView(value) : setFiltersView(!filterView);
-  }
 
   function handleSetPatientNameFilter(patientName) {
     setFilters((prev) => ({ ...prev, patient: patientName }));
@@ -87,24 +82,13 @@ export default function Cases() {
         />
 
         <div className="position-relative">
-          <div className="">
-            <button
-              className="btn btn-light btn-sm border me-2"
-              onClick={handleSetFilterView}
-            >
-              <i className="bi bi-funnel" />
-              <span className="ms-1">Filter</span>
-            </button>
-            <button className="btn btn-light btn-sm border">
-              <i className="bi bi-sort-down"></i>
-            </button>
-          </div>
           <CaseFilter
-            filterView={filterView}
-            handleSetFilterView={handleSetFilterView}
             filterObject={filterObject}
             handleSetFilter={handleSetFilter}
           />
+          <button className="btn btn-light btn-sm border">
+            <i className="bi bi-sort-down"></i>
+          </button>
         </div>
       </div>
       <div className="card-body px-0 pt-0 pb-0">
