@@ -30,7 +30,7 @@ export default function CaseFilter({ filterObject, handleSetFilter }) {
         onClick={() => handleSetFilterView()}
       >
         <i className="bi bi-funnel" />
-        <span className="ms-1">Filter</span>
+        <span className="ms-1 d-sm-inline d-none">Filter</span>
       </button>
       {isMobile ? (
         <FiltersPhone

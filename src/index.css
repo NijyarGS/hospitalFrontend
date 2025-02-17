@@ -1,9 +1,8 @@
-html {
-  height: 100dvh;
-}
+html,
 body,
-#root {
-  height: 100%;
+#root,
+#root > div {
+  min-height: 100dvh;
 }
 
 .custom_margin_start {
