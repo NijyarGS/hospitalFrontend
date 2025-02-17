@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { getCasesData } from "../services";
 import CaseFilter from "./CaseFilter";
+import { Link } from "react-router-dom";
+import CasesEdit from "./Cases/CaseEdit";
 
 export default function Cases() {
   const [cases, setCases] = useState([]);
@@ -15,6 +17,8 @@ export default function Cases() {
   };
   const [filters, setFilters] = useState(filterObject);
   const [filterView, setFiltersView] = useState(false);
+  const [viewEditCase, setViewEditCase] = useState(false);
+  const [caseEditData, setCaseEditData] = useState("");
 
   function handleSetFilterView(value = null) {
     value ? setFiltersView(value) : setFiltersView(!filterView);
@@ -28,8 +32,13 @@ export default function Cases() {
     setFilters(filterData);
   }
 
+  function handleOpenEditCase(data) {
+    setCaseEditData(data);
+    setViewEditCase(true);
+  }
+
   useEffect(() => {
-    if (cases) {
+    if (cases && cases.length > 0) {
       const FinalData = cases
         .filter((e) =>
           filters.patient
@@ -64,6 +73,13 @@ export default function Cases() {
 
   return (
     <div className="card">
+      {caseEditData && (
+        <CasesEdit
+          caseEditData={caseEditData}
+          viewEditCase={viewEditCase}
+          setViewEditCase={setViewEditCase}
+        />
+      )}
       <div className="card-header d-flex justify-content-between p-3">
         <TablePatientSearch
           value={filters.patient}
@@ -105,7 +121,11 @@ export default function Cases() {
             </thead>
 
             <tbody>
-              <TableData filteredCase={filteredCase} cases={cases} />
+              <TableData
+                filteredCase={filteredCase}
+                cases={cases}
+                handleOpenEditCase={handleOpenEditCase}
+              />
             </tbody>
           </table>
         </div>
@@ -118,7 +138,7 @@ export default function Cases() {
   );
 }
 
-function TableData({ cases, filteredCase }) {
+function TableData({ cases, filteredCase, handleOpenEditCase }) {
   const renderPlaceholder = cases.length === 0;
   const renderTable = cases.length > 0 && filteredCase.length > 0;
   const renderNotfound = cases.length > 0 && filteredCase.length === 0;
@@ -128,7 +148,11 @@ function TableData({ cases, filteredCase }) {
   }
   if (renderTable) {
     return filteredCase.map((indCase, index) => (
-      <TableRow key={"case" + index} indCase={indCase} />
+      <TableRow
+        key={"case" + index}
+        indCase={indCase}
+        handleOpenEditCase={handleOpenEditCase}
+      />
     ));
   }
   if (renderNotfound) {
@@ -175,14 +199,21 @@ function NotFoundData() {
   );
 }
 
-function TableRow({ indCase }) {
+function TableRow({ indCase, handleOpenEditCase }) {
   return (
     <tr>
       <td className="ps-3">{indCase.patient}</td>
       <td>{indCase.doctorId}</td>
       <td>{indCase.dateOfEntery}</td>
       <td>{indCase.status}</td>
-      <td className="text-end pe-3">action</td>
+      <td className="pe-3 text-end ">
+        <Link
+          className="link-body-emphasis small"
+          onClick={() => handleOpenEditCase(indCase)}
+        >
+          <i className="bi bi-pencil-square"></i>
+        </Link>
+      </td>
     </tr>
   );
 }

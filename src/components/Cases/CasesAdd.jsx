@@ -10,7 +10,7 @@ export default function CasesAdd({ viewAddCase, setViewAddCase }) {
   const [birthDate, setBirthDate] = useState("");
   const [gender, setGender] = useState("");
 
-  function submitfilter(e) {
+  function submitCase(e) {
     e.preventDefault();
 
     setPatient("");
@@ -20,7 +20,7 @@ export default function CasesAdd({ viewAddCase, setViewAddCase }) {
     handleClose();
   }
 
-  function clearFilter() {
+  function clearCase() {
     setPatient("");
     setDoctor("");
     setBirthDate("");
@@ -33,12 +33,12 @@ export default function CasesAdd({ viewAddCase, setViewAddCase }) {
   }
 
   return (
-    <Modal show={viewAddCase} onHide={clearFilter} backdrop="static">
-      <form onSubmit={submitfilter} className="card">
+    <Modal show={viewAddCase} onHide={clearCase} backdrop="static">
+      <form onSubmit={submitCase} className="card">
         <div className="card-body">
           <div className="mb-3 pb-3 d-flex justify-content-between align-items-center">
             <h5 className="card-title mb-0">Add a case</h5>
-            <button className="btn-close small" onClick={clearFilter} />
+            <button className="btn-close small" onClick={clearCase} />
           </div>
           <TextInput
             title="Patient name"
@@ -61,7 +61,7 @@ export default function CasesAdd({ viewAddCase, setViewAddCase }) {
           <button
             type="button"
             className="btn btn-outline-secondary w-100"
-            onClick={clearFilter}
+            onClick={clearCase}
           >
             Cancel
           </button>
