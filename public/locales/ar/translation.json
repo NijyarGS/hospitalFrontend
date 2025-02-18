@@ -14,6 +14,12 @@
   "previous": "سابق",
   "next": "تالي",
   "footer_page_number_message": "النتيجة {{firstNumber}} إلى {{itemPerPage}} من {{maxNumber}}",
+  "reports": "تقارير",
+  "primary": "أساسي",
+  "dashboard": "لوحة القيادة",
+  "home": "الصفحة الرئيسية",
+  "case_list": "قائمة الحالات",
+  "other_pages": "صفحات أخرى",
   "error": {
     "username": "المستخدم غير موجود",
     "password": "كلمة المرور غير صحيحة",
