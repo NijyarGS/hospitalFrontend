@@ -3,6 +3,8 @@ import { Modal } from "react-bootstrap";
 
 import { useEffect, useState } from "react";
 import { getDoctorsData } from "../../services";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 export default function CasesAdd({ viewAddCase, setViewAddCase }) {
   const [patient, setPatient] = useState("");
@@ -31,28 +33,44 @@ export default function CasesAdd({ viewAddCase, setViewAddCase }) {
   function handleClose() {
     setViewAddCase(false);
   }
+  const { t } = useTranslation();
+  const dir = i18next.dir();
 
   return (
-    <Modal show={viewAddCase} onHide={clearCase} backdrop="static">
+    <Modal
+      show={viewAddCase}
+      onHide={clearCase}
+      backdrop="static"
+      dir={dir}
+      centered
+    >
       <form onSubmit={submitCase} className="card">
         <div className="card-body">
           <div className="mb-3 pb-3 d-flex justify-content-between align-items-center">
-            <h5 className="card-title mb-0">Add a case</h5>
+            <h5 className="card-title mb-0">{t("cases.add")}</h5>
             <button className="btn-close small" onClick={clearCase} />
           </div>
           <TextInput
-            title="Patient name"
+            title="cases.patient_name"
             value={patient}
             setValue={setPatient}
           />
-          <DropDownInput title="Doctor" value={doctor} setValuen={setDoctor} />
+          <DropDownInput
+            title="cases.doctor"
+            value={doctor}
+            setValuen={setDoctor}
+          />
           <DateInput
-            title="Birth Date"
+            title="cases.patient_birth_date"
             value={birthDate}
             setValue={setBirthDate}
           />
 
-          <GenderRadios title="Gender" value={gender} setValue={setGender} />
+          <GenderRadios
+            title="cases.gender"
+            value={gender}
+            setValue={setGender}
+          />
         </div>
 
         <hr className="mx-3 my-0" />
@@ -63,10 +81,10 @@ export default function CasesAdd({ viewAddCase, setViewAddCase }) {
             className="btn btn-outline-secondary w-100"
             onClick={clearCase}
           >
-            Cancel
+            {t("cancel")}
           </button>
           <button type="submit" className="btn btn-primary w-100">
-            Submit
+            {t("submit")}
           </button>
         </div>
       </form>
@@ -75,9 +93,10 @@ export default function CasesAdd({ viewAddCase, setViewAddCase }) {
 }
 
 const TextInput = ({ title, value, setValue }) => {
+  const { t } = useTranslation();
   return (
     <div className="mb-3">
-      <label className="form-label">{title}</label>
+      <label className="form-label">{t(title)}</label>
 
       <input
         required
@@ -98,9 +117,10 @@ const DropDownInput = ({ title, value, setValue }) => {
     getDoctorsData().then((e) => setDoctorList(e));
   }, []);
 
+  const { t } = useTranslation();
   return (
     <div className="mb-3">
-      <label className="form-label">{title}</label>
+      <label className="form-label">{t(title)}</label>
       <select
         className="form-select"
         value={value}
@@ -108,7 +128,7 @@ const DropDownInput = ({ title, value, setValue }) => {
         required
       >
         <option value="" hidden>
-          Select a doctor
+          {t("cases.doctor_select")}
         </option>
         {renderDoctorList &&
           doctorList.map((doc) => (
@@ -122,9 +142,11 @@ const DropDownInput = ({ title, value, setValue }) => {
 };
 
 const DateInput = ({ title, value, setValue }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="mb-3">
-      <label className="form-label">{title}</label>
+      <label className="form-label">{t(title)}</label>
       <input
         required
         className="form-control"
@@ -132,6 +154,7 @@ const DateInput = ({ title, value, setValue }) => {
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
+      <div className="form-text"> {t("cases.date_note")}</div>
     </div>
   );
 };
@@ -139,28 +162,32 @@ const DateInput = ({ title, value, setValue }) => {
 const GenderRadios = ({ title, value, setValue }) => {
   const genders = ["male", "female"];
 
+  const { t } = useTranslation();
+  const dir = i18next.dir();
   return (
     <div>
-      <label className="form-label">{title}</label>
+      <label className="form-label">{t(title)}</label>
 
-      {genders.map((gender) => (
-        <div className="form-check" key={"gender" + gender}>
-          <input
-            className="form-check-input"
-            type="radio"
-            id={"genderRadio" + gender}
-            checked={value === gender}
-            onChange={() => setValue(gender)}
-          />
+      <div className="d-flex flex-column" style={{ alignItems: "start" }}>
+        {genders.map((gender) => (
+          <div className="form-check d-inline" key={"gender" + gender}>
+            <input
+              className="form-check-input"
+              type="radio"
+              id={"genderRadio" + gender}
+              checked={value === gender}
+              onChange={() => setValue(gender)}
+            />
 
-          <label
-            htmlFor={"genderRadio" + gender}
-            className="form-check-label text-capitalize"
-          >
-            {gender}
-          </label>
-        </div>
-      ))}
+            <label
+              htmlFor={"genderRadio" + gender}
+              className="form-check-label text-capitalize"
+            >
+              {t("cases." + gender)}
+            </label>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
