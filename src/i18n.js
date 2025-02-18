@@ -9,7 +9,7 @@ i18next.use(initReactI18next).init({
   fallbackLng: "en",
   lng: "ar",
   resources: {
-    // en: { translation: en },
+    en: { translation: en },
     ar: { translation: ar },
   },
   interpolation: {

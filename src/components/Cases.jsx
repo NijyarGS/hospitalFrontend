@@ -4,6 +4,8 @@ import { getCasesData } from "../services";
 import CaseFilter from "./CaseFilter";
 import { Link } from "react-router-dom";
 import CasesEdit from "./Cases/CaseEdit";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 export default function Cases() {
   const [cases, setCases] = useState([]);
@@ -13,11 +15,13 @@ export default function Cases() {
     doctorId: "",
     beginDate: "",
     endDate: "",
-    status: { open: false, close: false },
+    status: { active: false, done: false },
   };
   const [filters, setFilters] = useState(filterObject);
   const [viewEditCase, setViewEditCase] = useState(false);
   const [caseEditData, setCaseEditData] = useState("");
+
+  const { t } = useTranslation();
 
   function handleSetPatientNameFilter(patientName) {
     setFilters((prev) => ({ ...prev, patient: patientName }));
@@ -87,7 +91,13 @@ export default function Cases() {
             handleSetFilter={handleSetFilter}
           />
           <button className="btn btn-light btn-sm border">
-            <i className="bi bi-sort-down"></i>
+            <i className="bi bi-sort-down" />
+            <span
+              className="d-sm-inline d-none"
+              style={{ marginInlineStart: "0.25rem" }}
+            >
+              {t("cases.sort")}
+            </span>
           </button>
         </div>
       </div>
@@ -96,11 +106,11 @@ export default function Cases() {
           <table className="table table-hover table-borderless1 border-light mb-0">
             <thead className="border-bottom">
               <tr className="">
-                <th className="ps-3 fw-medium">Patient</th>
-                <th className="fw-medium">Doctor</th>
-                <th className="fw-medium">Date</th>
-                <th className="fw-medium">Status</th>
-                <th className="pe-3 text-end fw-medium">Actions</th>
+                <th className="ps-3 fw-medium">{t("cases.patient")}</th>
+                <th className="fw-medium">{t("cases.doctor")}</th>
+                <th className="fw-medium">{t("date")}</th>
+                <th className="fw-medium">{t("status")}</th>
+                <th className="pe-3 text-end fw-medium">{t("actions")}</th>
               </tr>
             </thead>
 
@@ -204,6 +214,9 @@ function TableRow({ indCase, handleOpenEditCase }) {
 
 function CardFooterPagenation() {
   const pageNationValueArr = ["1", "2", "3", "4"];
+
+  const { t } = useTranslation();
+
   const PagenationButton = ({ children }) => (
     <button
       type="button"
@@ -213,16 +226,19 @@ function CardFooterPagenation() {
     </button>
   );
   return (
-    <div className="btn-group me-2 align-self-md-stretch align-self-center mt-4 mt-md-0">
+    <div
+      dir="ltr"
+      className="btn-group me-2 align-self-md-stretch align-self-center mt-4 mt-md-0"
+    >
       <PagenationButton>
         <i className="bi bi-caret-left" />
-        <span className="d-lg-inline d-none ms-1">Previous</span>
+        <span className="d-lg-inline d-none ms-1">{t("previous")}</span>
       </PagenationButton>
       {pageNationValueArr.map((e) => (
         <PagenationButton key={"pagenationButton" + e}>{e}</PagenationButton>
       ))}
       <PagenationButton>
-        <span className="d-lg-inline d-none me-1">Next</span>
+        <span className="d-lg-inline d-none me-1">{t("next")}</span>
         <i className="bi bi-caret-right" />
       </PagenationButton>
     </div>
@@ -232,13 +248,23 @@ function CardFooterPagenation() {
 function CardFooterDataNumber() {
   const [itemPerPage, setItemPerPage] = useState(10);
   const ammountOptions = [10, 25, 50];
+
+  const { t } = useTranslation();
+
   return (
     <div className="small text-mute text-secondary fw-light">
-      <span>Result 1-{itemPerPage} of 300 </span>
+      <span>
+        {t("footer_page_number_message", {
+          firstNumber: "1",
+          itemPerPage: itemPerPage,
+          maxNumber: "300",
+        })}
+      </span>
       <select
         value={itemPerPage}
         onChange={(e) => setItemPerPage(e.target.value)}
-        className="form-select form-select-sm d-inline w-auto text-secondary "
+        className="form-select form-select-sm d-inline w-auto text-secondary"
+        style={{ marginInlineStart: "0.25rem" }}
       >
         {ammountOptions.map((ammount) => (
           <option key={"option" + ammount} value={ammount}>
@@ -253,21 +279,36 @@ function CardFooterDataNumber() {
 function TablePatientSearch({ value, setValue }) {
   const [searchVal, setSearchVal] = useState(value);
 
+  const { t } = useTranslation();
+  const dir = i18next.dir();
+  // const dir = "ltr";
+
   function handleFormSubmit(e) {
     e.preventDefault();
     setValue(searchVal);
   }
 
   return (
-    <form onSubmit={handleFormSubmit}>
+    <form onSubmit={handleFormSubmit} dir={dir}>
       <div className="input-group">
-        <button className="btn btn-sm btn-light border-top border-start border-bottom">
+        <button
+          className={`btn btn-sm btn-light border-top border-bottom ${
+            dir === "ltr"
+              ? "border-start"
+              : "border-end border-start-0 rounded-start-0 rounded-end-1"
+          }`}
+        >
           <i className="bi bi-search" />
         </button>
         <input
           type="text"
-          className="form-control form-control-sm"
-          placeholder="Search patient..."
+          className={`form-control form-control-sm
+            ${
+              dir === "ltr"
+                ? ""
+                : "border-start border-end-0 rounded-start-1 rounded-end-0"
+            }`}
+          placeholder={t("cases.patient_search")}
           value={searchVal}
           onChange={(e) => setSearchVal(e.target.value)}
         />

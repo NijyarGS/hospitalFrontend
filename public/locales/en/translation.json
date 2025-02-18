@@ -4,9 +4,41 @@
   "password": "Password",
   "submit": "Submit",
   "contact": "In case of forgetting your password, contact IT department",
+  "cancel": "Cancel",
+  "clear": "Clear",
+  "date": "Date",
+  "status": "Status",
+  "actions": "Actions",
+  "from": "From",
+  "to": "To",
+  "previous": "Previous",
+  "next": "Next",
+  "footer_page_number_message": "Results {{firstNumber}} - {{itemPerPage}} of {{maxNumber}}",
   "error": {
     "username": "Username does not exist",
     "password": "Incorrect Password",
-    "invalid": "Username and Password are required"
+    "invalid": "Username and Password are required",
+    "page": "Page not found",
+    "pageMessage": "Sorry! The page you are looking for does not exist.",
+    "pageBackHome": "Back to Home"
+  },
+  "cases": {
+    "cases": "Cases",
+    "edit": "Edit Case",
+    "add": "Add Case",
+    "filter": "Filter",
+    "sort": "Sort",
+    "patient": "Patient",
+    "patient_name": "Patient Name",
+    "patient_birth_date": "Patient Birth Date",
+    "patient_search": "Patient Search...",
+    "doctor": "Doctor",
+    "doctor_select": "Select doctor",
+    "date_note": "Date format: Month / Day / Year",
+    "gender": "Patient Gender",
+    "male": "Male",
+    "female": "Female",
+    "active": "Active",
+    "done": "Completed"
   }
 }

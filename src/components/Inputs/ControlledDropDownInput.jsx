@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 
+import { useTranslation } from "react-i18next";
+
 export default function ControlledDropDownInput({
   title,
   value,
@@ -9,9 +11,10 @@ export default function ControlledDropDownInput({
 }) {
   const renderDataList = dataList && dataList.length > 0;
 
+  const { t } = useTranslation();
   return (
     <div className="mb-3">
-      <label className="form-label">{title}</label>
+      <label className="form-label">{t(title)}</label>
       <select
         className="form-select"
         value={value}
@@ -19,7 +22,7 @@ export default function ControlledDropDownInput({
         required
       >
         <option value="" hidden>
-          {defaultSelectTitle}
+          {t(defaultSelectTitle)}
         </option>
         {renderDataList &&
           dataList.map((data) => (

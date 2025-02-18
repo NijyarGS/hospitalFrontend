@@ -4,6 +4,16 @@
   "password": "كلمة المرور",
   "submit": "تسجيل",
   "contact": "في حالة نسيان كلمة المرور الخاصة بك، اتصل بقسم تكنولوجيا المعلومات",
+  "cancel": "إلغاء",
+  "clear": "إزالة",
+  "date": "التاريخ",
+  "status": "حالة",
+  "actions": "الإجراءات",
+  "from": "من",
+  "to": "الى",
+  "previous": "سابق",
+  "next": "تالي",
+  "footer_page_number_message": "النتيجة {{firstNumber}} إلى {{itemPerPage}} من {{maxNumber}}",
   "error": {
     "username": "المستخدم غير موجود",
     "password": "كلمة المرور غير صحيحة",
@@ -11,5 +21,24 @@
     "page": "صفحة غير موجودة",
     "pageMessage": "عذرن! الصفحة التي تبحث عنها غير موجودة.",
     "pageBackHome": "العودة إلى الصفحة الرئيسية"
+  },
+  "cases": {
+    "cases": "الحالات",
+    "edit": "تعديل الحالة",
+    "add": "إضافة حالة",
+    "filter": "تصنيف",
+    "sort": "فرز",
+    "patient": "المريض",
+    "patient_name": "اسم المريض",
+    "patient_birth_date": "تاريخ ميلاد المريض",
+    "patient_search": "ابحث عن مريض...",
+    "doctor": "الطبيب",
+    "doctor_select": "اختر طبيبا",
+    "date_note": "تنسيق التاريخ هو : سنة / يوم / شهر",
+    "gender": "جنس المريض",
+    "male": "ذكر",
+    "female": "أنثى",
+    "active": "نشطة",
+    "done": "منتهية"
   }
 }

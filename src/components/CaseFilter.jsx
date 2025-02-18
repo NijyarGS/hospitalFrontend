@@ -5,6 +5,8 @@ import { getDoctorsData } from "../services";
 import { useMediaQuery } from "react-responsive";
 import { Modal } from "react-bootstrap";
 import { useRef } from "react";
+import i18next from "i18next";
+import { useTranslation } from "react-i18next";
 
 export default function CaseFilter({ filterObject, handleSetFilter }) {
   const [filterView, setFiltersView] = useState(false);
@@ -23,14 +25,21 @@ export default function CaseFilter({ filterObject, handleSetFilter }) {
     handleSetFilterView(false);
   }
 
+  const { t } = useTranslation();
+
   return (
     <Fragment>
       <button
-        className="btn btn-light btn-sm border me-2"
+        className="btn btn-light btn-sm border mx-2"
         onClick={() => handleSetFilterView()}
       >
         <i className="bi bi-funnel" />
-        <span className="ms-1 d-sm-inline d-none">Filter</span>
+        <span
+          className="d-sm-inline d-none"
+          style={{ marginInlineStart: "0.25rem" }}
+        >
+          {t("cases.filter")}
+        </span>
       </button>
       {isMobile ? (
         <FiltersPhone
@@ -58,7 +67,6 @@ const FiltersDesktop = ({
   submitfilter,
 }) => {
   const dropdownRef = useRef(null);
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -70,8 +78,15 @@ const FiltersDesktop = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [handleClose]);
 
+  const dir = i18next.dir();
+
   return filterView ? (
-    <div className="position-absolute z-1 mt-1 end-0" ref={dropdownRef}>
+    <div
+      className={`position-absolute z-1 mt-1 ${
+        dir === "rtl" ? "start-0" : "end-0"
+      }`}
+      ref={dropdownRef}
+    >
       <div className="card">
         <FiltersMenu
           handleClose={handleClose}
@@ -121,7 +136,7 @@ const FiltersMenu = ({ handleClose, filterObject, submitfilter }) => {
       doctorId: doctor,
       beginDate: beginDate,
       endDate: endDate,
-      status: { open: status.open, close: status.close },
+      status: { active: status.active, done: status.done },
     };
     submitfilter(ValidData);
   }
@@ -132,28 +147,37 @@ const FiltersMenu = ({ handleClose, filterObject, submitfilter }) => {
       doctorId: "",
       beginDate: "",
       endDate: "",
-      status: { open: false, close: false },
+      status: { active: false, done: false },
     };
     submitfilter(ValidData);
   }
 
+  const { t } = useTranslation();
   return (
     <Fragment>
       <div className="card-body">
         <div className="mb-3 pb-3 d-flex justify-content-between align-items-center">
-          <h5 className="card-title mb-0">Filter</h5>
+          <h5 className="card-title mb-0">{t("cases.filter")}</h5>
           <button className="btn-close small" onClick={handleClose} />
         </div>
-        <TextInput title="Patient" value={patient} setValue={setPatient} />
-        <DropDownInput title="Doctor" value={doctor} setValue={setDoctor} />
+        <TextInput
+          title="cases.patient"
+          value={patient}
+          setValue={setPatient}
+        />
+        <DropDownInput
+          title="cases.doctor"
+          value={doctor}
+          setValue={setDoctor}
+        />
 
         <div className="d-flex flex-sm-row flex-column gap-2 mb-3">
-          <DateInput title="From" value={beginDate} setValue={setBeginDate} />
-          <DateInput title="To" value={endDate} setValue={setEndDate} />
+          <DateInput title="from" value={beginDate} setValue={setBeginDate} />
+          <DateInput title="to" value={endDate} setValue={setEndDate} />
         </div>
         <StatusInput
           statusTypes={filterObject.status}
-          title="Status"
+          title="status"
           value={status}
           setValue={setStatus}
         />
@@ -167,14 +191,14 @@ const FiltersMenu = ({ handleClose, filterObject, submitfilter }) => {
           className="btn btn-outline-secondary w-100"
           onClick={handleClear}
         >
-          Clear
+          {t("clear")}
         </button>
         <button
           type="submit"
           className="btn btn-primary w-100"
           onClick={handleSubmit}
         >
-          Submit
+          {t("submit")}
         </button>
       </div>
     </Fragment>
@@ -182,9 +206,10 @@ const FiltersMenu = ({ handleClose, filterObject, submitfilter }) => {
 };
 
 const TextInput = ({ title, value, setValue }) => {
+  const { t } = useTranslation();
   return (
     <div className="mb-3">
-      <label className="form-label">{title}</label>
+      <label className="form-label">{t(title)}</label>
       <input
         className="form-control"
         type="text"
@@ -203,15 +228,17 @@ const DropDownInput = ({ title, value, setValue }) => {
     getDoctorsData().then((e) => setDoctorList(e));
   }, []);
 
+  const { t } = useTranslation();
+
   return (
     <div className="mb-3">
-      <label className="form-label">{title}</label>
+      <label className="form-label">{t(title)}</label>
       <select
         className="form-select"
         value={value}
         onChange={(e) => setValue(e.target.value)}
       >
-        <option value="">Select a doctor</option>
+        <option value="">{t("cases.doctor_select")}</option>
         {renderDoctorList &&
           doctorList.map((doc) => (
             <option key={"docOpt" + doc.id} value={doc.id}>
@@ -224,9 +251,11 @@ const DropDownInput = ({ title, value, setValue }) => {
 };
 
 const DateInput = ({ title, value, setValue }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="">
-      <label className="form-label">{title}</label>
+      <label className="form-label">{t(title)}</label>
       <input
         className="form-control"
         type="Date"
@@ -238,24 +267,29 @@ const DateInput = ({ title, value, setValue }) => {
 };
 
 const StatusInput = ({ statusTypes, title, value, setValue }) => {
+  const { t } = useTranslation();
+  const dir = i18next.dir();
+
   return (
     <div>
-      <label className="form-label">{title}</label>
+      <label className="form-label">{t(title)}</label>
 
-      {Object.keys(statusTypes).map((stat) => (
-        <div className="form-check" key={"status" + stat}>
-          <input
-            className="form-check-input"
-            type="checkbox"
-            checked={value[stat]}
-            onChange={(elem) =>
-              setValue((prev) => ({ ...prev, [stat]: elem.target.checked }))
-            }
-          />
+      <div className="d-flex flex-column align-items-start">
+        {Object.keys(statusTypes).map((stat) => (
+          <div className="form-check" key={"status" + stat}>
+            <input
+              className="form-check-input"
+              type="checkbox"
+              checked={value[stat]}
+              onChange={(elem) =>
+                setValue((prev) => ({ ...prev, [stat]: elem.target.checked }))
+              }
+            />
 
-          <label className="form-check-label">{stat}</label>
-        </div>
-      ))}
+            <label className="form-check-label">{t("cases." + stat)}</label>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
