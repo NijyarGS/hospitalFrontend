@@ -47,10 +47,8 @@ export default function Cases() {
             : true
         )
         .filter((e) =>
-          filters.doctor
-            ? e.doctorId
-                .toLocaleLowerCase()
-                .includes(filters.doctor.toLocaleLowerCase())
+          filters.doctorId
+            ? e.doctorId.toString() === filters.doctorId.toString()
             : true
         )
         .filter((e) =>
@@ -58,7 +56,18 @@ export default function Cases() {
         )
         .filter((e) =>
           filters.endDate ? e.dateOfEntery < filters.endDate : true
-        );
+        )
+        .filter((e) => {
+          if (filters.status.active && filters.status.done) {
+            return true;
+          } else if (filters.status.active) {
+            return e.status === 1;
+          } else if (filters.status.done) {
+            return e.status === 2;
+          } else {
+            return true;
+          }
+        });
 
       setFilteredCases(FinalData);
     }
@@ -194,12 +203,24 @@ function NotFoundData() {
 }
 
 function TableRow({ indCase, handleOpenEditCase }) {
+  const statusNames = { 1: "active", 2: "done" };
+
+  const { t } = useTranslation();
+
   return (
     <tr>
       <td className="ps-3">{indCase.patient}</td>
       <td>{indCase.doctorId}</td>
       <td>{indCase.dateOfEntery}</td>
-      <td>{indCase.status}</td>
+      <td>
+        <span
+          className={`badge rounded-pill ${
+            indCase.status == 1 ? "text-bg-primary" : "text-bg-light"
+          }`}
+        >
+          {t("cases." + statusNames[indCase.status])}
+        </span>
+      </td>
       <td className="pe-3 text-end ">
         <Link
           className="link-body-emphasis small"
