@@ -10,6 +10,8 @@ export default function App() {
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
+        <Route path="home" element={<Home />} />
+        <Route path="cases" element={<Home />} />
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="*" element={<Unavilable />} />

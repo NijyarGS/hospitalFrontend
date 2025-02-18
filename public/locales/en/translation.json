@@ -14,6 +14,12 @@
   "previous": "Previous",
   "next": "Next",
   "footer_page_number_message": "Results {{firstNumber}} - {{itemPerPage}} of {{maxNumber}}",
+  "reports": "Reports",
+  "primary": "Primary",
+  "dashboard": "Dashboard",
+  "home": "Home",
+  "case_list": "Case list",
+  "other_pages": "Other pages",
   "error": {
     "username": "Username does not exist",
     "password": "Incorrect Password",
