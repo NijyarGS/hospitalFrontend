@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 export default function ControlledDropDownInput({
   title,
   value,
+  originalValue,
   setValue,
   dataList,
   defaultSelectTitle,
@@ -16,7 +17,9 @@ export default function ControlledDropDownInput({
     <div className="mb-3">
       <label className="form-label">{t(title)}</label>
       <select
-        className="form-select"
+        className={`form-control ${
+          originalValue !== value ? "border-warning" : ""
+        }`}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         required

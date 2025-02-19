@@ -2,7 +2,12 @@
 
 import { useTranslation } from "react-i18next";
 
-export default function ControlledDateInput({ title, value, setValue }) {
+export default function ControlledDateInput({
+  title,
+  value,
+  originalValue,
+  setValue,
+}) {
   const { t } = useTranslation();
 
   return (
@@ -10,7 +15,9 @@ export default function ControlledDateInput({ title, value, setValue }) {
       <label className="form-label">{t(title)}</label>
       <input
         required
-        className="form-control"
+        className={`form-control ${
+          originalValue !== value ? "border-warning" : ""
+        }`}
         type="Date"
         value={value}
         onChange={(e) => setValue(e.target.value)}

@@ -18,7 +18,7 @@ export default function CasesEdit({
   const { id, dateOfEntery } = caseEditData;
 
   const [patient, setPatient] = useState(caseEditData.patient);
-  const [doctor, setDoctor] = useState(caseEditData.doctor);
+  const [doctor, setDoctor] = useState(caseEditData.doctorId);
   const [birthDate, setBirthDate] = useState(caseEditData.dateOfEntery);
   const [status, setStatus] = useState(caseEditData.status);
 
@@ -34,13 +34,6 @@ export default function CasesEdit({
   useEffect(() => {
     getDoctorsData().then((e) => setDoctorList(e));
   }, []);
-
-  useEffect(() => {
-    setPatient(caseEditData.patient);
-    setDoctor(caseEditData.doctorId);
-    setBirthDate(caseEditData.age);
-    setStatus(caseEditData.status);
-  }, [caseEditData]);
 
   function submitCases(e) {
     e.preventDefault();
@@ -79,12 +72,14 @@ export default function CasesEdit({
           <ControlledTextInput
             title="cases.patient_name"
             value={patient}
+            originalValue={caseEditData.patient}
             setValue={setPatient}
           />
           <ControlledDropDownInput
             title="cases.doctor"
             value={doctor}
-            setValuen={setDoctor}
+            originalValue={caseEditData.doctorId}
+            setValue={setDoctor}
             dataList={doctorList}
             defaultSelectTitle={"cases.doctor_select"}
           />
@@ -92,12 +87,14 @@ export default function CasesEdit({
           <ControlledDateInput
             title="cases.patient_birth_date"
             value={birthDate}
+            originalValue={caseEditData.dateOfEntery}
             setValue={setBirthDate}
           />
 
           <ControlledRadialGroup
             title="status"
             value={status}
+            originalValue={caseEditData.status}
             setValue={setStatus}
             radialsData={statusArray}
           />

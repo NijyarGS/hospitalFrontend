@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { getCasesData } from "../services";
 import CaseFilter from "./CaseFilter";
 import { Link } from "react-router-dom";
@@ -10,10 +10,9 @@ import i18next from "i18next";
 export default function Cases() {
   const [cases, setCases] = useState([]);
   const [filteredCase, setFilteredCases] = useState([]);
-  const [viewEditCase, setViewEditCase] = useState(false);
-  const [caseEditData, setCaseEditData] = useState("");
-
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
+
+  const { t } = useTranslation();
 
   const filterObject = {
     patient: "",
@@ -24,19 +23,12 @@ export default function Cases() {
   };
   const [filters, setFilters] = useState(filterObject);
 
-  const { t } = useTranslation();
-
   function handleSetPatientNameFilter(patientName) {
     setFilters((prev) => ({ ...prev, patient: patientName }));
   }
 
   function handleSetFilter(filterData) {
     setFilters(filterData);
-  }
-
-  function handleOpenEditCase(data) {
-    setCaseEditData(data);
-    setViewEditCase(true);
   }
 
   function handleSort(field) {
@@ -105,13 +97,6 @@ export default function Cases() {
 
   return (
     <div className="card">
-      {caseEditData && (
-        <CasesEdit
-          caseEditData={caseEditData}
-          viewEditCase={viewEditCase}
-          setViewEditCase={setViewEditCase}
-        />
-      )}
       <div className="card-header d-flex justify-content-between p-3 flex-wrap gap-3">
         <TablePatientSearch
           value={filters.patient}
@@ -174,11 +159,7 @@ export default function Cases() {
             </thead>
 
             <tbody>
-              <TableData
-                filteredCase={filteredCase}
-                cases={cases}
-                handleOpenEditCase={handleOpenEditCase}
-              />
+              <TableData filteredCase={filteredCase} cases={cases} />
             </tbody>
           </table>
         </div>
@@ -191,7 +172,7 @@ export default function Cases() {
   );
 }
 
-function TableData({ cases, filteredCase, handleOpenEditCase }) {
+function TableData({ cases, filteredCase }) {
   const renderPlaceholder = cases.length === 0;
   const renderTable = cases.length > 0 && filteredCase.length > 0;
   const renderNotfound = cases.length > 0 && filteredCase.length === 0;
@@ -201,11 +182,7 @@ function TableData({ cases, filteredCase, handleOpenEditCase }) {
   }
   if (renderTable) {
     return filteredCase.map((indCase, index) => (
-      <TableRow
-        key={"case" + index}
-        indCase={indCase}
-        handleOpenEditCase={handleOpenEditCase}
-      />
+      <TableRow indCase={indCase} key={"case" + index} />
     ));
   }
   if (renderNotfound) {
@@ -252,34 +229,48 @@ function NotFoundData() {
   );
 }
 
-function TableRow({ indCase, handleOpenEditCase }) {
+function TableRow({ indCase }) {
   const statusNames = { 1: "active", 2: "done" };
+
+  const [viewEditCase, setViewEditCase] = useState(false);
+  function handleOpenEditCase() {
+    setViewEditCase(true);
+  }
 
   const { t } = useTranslation();
 
   return (
-    <tr>
-      <td style={{ paddingInlineStart: "1rem" }}>{indCase.patient}</td>
-      <td>{indCase.doctorId}</td>
-      <td>{indCase.dateOfEntery}</td>
-      <td>
-        <span
-          className={`badge rounded-pill ${
-            indCase.status == 1 ? "text-bg-primary" : "text-bg-light"
-          }`}
-        >
-          {t("cases." + statusNames[indCase.status])}
-        </span>
-      </td>
-      <td style={{ textAlign: "end", paddingInlineEnd: "1rem" }}>
-        <Link
-          className="link-body-emphasis small"
-          onClick={() => handleOpenEditCase(indCase)}
-        >
-          <i className="bi bi-pencil-square"></i>
-        </Link>
-      </td>
-    </tr>
+    <Fragment>
+      {viewEditCase && (
+        <CasesEdit
+          caseEditData={indCase}
+          viewEditCase={viewEditCase}
+          setViewEditCase={setViewEditCase}
+        />
+      )}
+      <tr>
+        <td style={{ paddingInlineStart: "1rem" }}>{indCase.patient}</td>
+        <td>{indCase.doctorId}</td>
+        <td>{indCase.dateOfEntery}</td>
+        <td>
+          <span
+            className={`badge rounded-pill ${
+              indCase.status == 1 ? "text-bg-primary" : "text-bg-light"
+            }`}
+          >
+            {t("cases." + statusNames[indCase.status])}
+          </span>
+        </td>
+        <td style={{ textAlign: "end", paddingInlineEnd: "1rem" }}>
+          <Link
+            className="link-body-emphasis small"
+            onClick={() => handleOpenEditCase()}
+          >
+            <i className="bi bi-pencil-square"></i>
+          </Link>
+        </td>
+      </tr>
+    </Fragment>
   );
 }
 
