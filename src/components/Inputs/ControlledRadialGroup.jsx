@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 export default function ControlledRadialGroup({
   title,
   value,
+  originalValue,
   setValue,
   radialsData,
 }) {
@@ -20,7 +21,11 @@ export default function ControlledRadialGroup({
             key={"radialOption" + radialOption.value + radialOption.id}
           >
             <input
-              className="form-check-input"
+              className={`form-check-input ${
+                (value !== originalValue) & (originalValue == radialOption.id)
+                  ? "border-warning"
+                  : ""
+              }`}
               type="radio"
               id={"radioOption" + radialOption.value + radialOption.id}
               checked={value === radialOption.id}
