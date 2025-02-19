@@ -10,6 +10,11 @@ import i18next from "i18next";
 export default function Cases() {
   const [cases, setCases] = useState([]);
   const [filteredCase, setFilteredCases] = useState([]);
+  const [viewEditCase, setViewEditCase] = useState(false);
+  const [caseEditData, setCaseEditData] = useState("");
+
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
+
   const filterObject = {
     patient: "",
     doctorId: "",
@@ -18,8 +23,6 @@ export default function Cases() {
     status: { active: false, done: false },
   };
   const [filters, setFilters] = useState(filterObject);
-  const [viewEditCase, setViewEditCase] = useState(false);
-  const [caseEditData, setCaseEditData] = useState("");
 
   const { t } = useTranslation();
 
@@ -36,9 +39,19 @@ export default function Cases() {
     setViewEditCase(true);
   }
 
+  function handleSort(field) {
+    setSortConfig((prev) => {
+      let direction = "asc"; // Default is ascending
+      if (prev.key === field && prev.direction === "asc") {
+        direction = "desc"; // Toggle to descending if already ascending
+      }
+      return { key: field, direction };
+    });
+  }
+
   useEffect(() => {
     if (cases && cases.length > 0) {
-      const FinalData = cases
+      let FinalData = cases
         .filter((e) =>
           filters.patient
             ? e.patient
@@ -69,9 +82,20 @@ export default function Cases() {
           }
         });
 
+      if (sortConfig.key) {
+        FinalData = FinalData.sort((a, b) => {
+          const aValue = a[sortConfig.key];
+          const bValue = b[sortConfig.key];
+
+          if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
+          if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
+          return 0;
+        });
+      }
+
       setFilteredCases(FinalData);
     }
-  }, [filters, cases]);
+  }, [filters, cases, sortConfig]);
 
   useEffect(() => {
     getCasesData().then((response) => {
@@ -115,10 +139,34 @@ export default function Cases() {
           <table className="table table-hover table-borderless1 border-light mb-0">
             <thead className="border-bottom">
               <tr className="">
-                <th className="ps-3 fw-medium">{t("cases.patient")}</th>
-                <th className="fw-medium">{t("cases.doctor")}</th>
-                <th className="fw-medium">{t("date")}</th>
-                <th className="fw-medium">{t("status")}</th>
+                <th
+                  onClick={() => handleSort("patient")}
+                  className="ps-3 fw-medium"
+                  style={{ cursor: "pointer" }}
+                >
+                  {t("cases.patient")}
+                </th>
+                <th
+                  onClick={() => handleSort("doctorId")}
+                  className="fw-medium"
+                  style={{ cursor: "pointer" }}
+                >
+                  {t("cases.doctor")}
+                </th>
+                <th
+                  onClick={() => handleSort("dateOfEntery")}
+                  className="fw-medium"
+                  style={{ cursor: "pointer" }}
+                >
+                  {t("date")}
+                </th>
+                <th
+                  onClick={() => handleSort("status")}
+                  className="fw-medium"
+                  style={{ cursor: "pointer" }}
+                >
+                  {t("status")}
+                </th>
                 <th className="pe-3 text-end fw-medium">{t("actions")}</th>
               </tr>
             </thead>
