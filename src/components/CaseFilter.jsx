@@ -125,10 +125,16 @@ const FiltersPhone = ({
 
 const FiltersMenu = ({ handleClose, filterValue, submitfilter }) => {
   const [patient, setPatient] = useState(filterValue.patient);
-  const [doctor, setDoctor] = useState(filterValue.doctor);
+  const [doctor, setDoctor] = useState(filterValue.doctorId);
   const [beginDate, setBeginDate] = useState(filterValue.beginDate);
   const [endDate, setEndDate] = useState(filterValue.endDate);
   const [status, setStatus] = useState(filterValue.status);
+
+  const [doctorList, setDoctorList] = useState([]);
+
+  useEffect(() => {
+    getDoctorsData().then((e) => setDoctorList(e));
+  }, []);
 
   function handleSubmit() {
     const ValidData = {
@@ -169,6 +175,7 @@ const FiltersMenu = ({ handleClose, filterValue, submitfilter }) => {
           title="cases.doctor"
           value={doctor}
           setValue={setDoctor}
+          doctorList={doctorList}
         />
 
         <div className="d-flex flex-sm-row flex-column gap-2 mb-3">
@@ -220,13 +227,8 @@ const TextInput = ({ title, value, setValue }) => {
   );
 };
 
-const DropDownInput = ({ title, value, setValue }) => {
-  const [doctorList, setDoctorList] = useState([]);
+const DropDownInput = ({ title, value, setValue, doctorList }) => {
   const renderDoctorList = doctorList && doctorList.length > 0;
-
-  useEffect(() => {
-    getDoctorsData().then((e) => setDoctorList(e));
-  }, []);
 
   const { t } = useTranslation();
 
