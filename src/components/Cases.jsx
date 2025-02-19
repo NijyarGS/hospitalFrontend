@@ -41,9 +41,9 @@ export default function Cases() {
 
   function handleSort(field) {
     setSortConfig((prev) => {
-      let direction = "asc"; // Default is ascending
+      let direction = "asc";
       if (prev.key === field && prev.direction === "asc") {
-        direction = "desc"; // Toggle to descending if already ascending
+        direction = "desc";
       }
       return { key: field, direction };
     });
@@ -119,10 +119,7 @@ export default function Cases() {
         />
 
         <div className="position-relative">
-          <CaseFilter
-            filterObject={filterObject}
-            handleSetFilter={handleSetFilter}
-          />
+          <CaseFilter filterValue={filters} handleSetFilter={handleSetFilter} />
           <button className="btn btn-light btn-sm border">
             <i className="bi bi-sort-down" />
             <span
@@ -356,6 +353,10 @@ function TablePatientSearch({ value, setValue }) {
     e.preventDefault();
     setValue(searchVal);
   }
+
+  useEffect(() => {
+    setSearchVal(value);
+  }, [value]);
 
   return (
     <form onSubmit={handleFormSubmit} dir={dir}>

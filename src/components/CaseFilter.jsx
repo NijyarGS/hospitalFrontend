@@ -8,7 +8,7 @@ import { useRef } from "react";
 import i18next from "i18next";
 import { useTranslation } from "react-i18next";
 
-export default function CaseFilter({ filterObject, handleSetFilter }) {
+export default function CaseFilter({ filterValue, handleSetFilter }) {
   const [filterView, setFiltersView] = useState(false);
   const isMobile = useMediaQuery({ maxWidth: 575 });
 
@@ -45,14 +45,14 @@ export default function CaseFilter({ filterObject, handleSetFilter }) {
         <FiltersPhone
           filterView={filterView}
           handleClose={handleClose}
-          filterObject={filterObject}
+          filterValue={filterValue}
           submitfilter={submitfilter}
         />
       ) : (
         <FiltersDesktop
           filterView={filterView}
           handleClose={handleClose}
-          filterObject={filterObject}
+          filterValue={filterValue}
           submitfilter={submitfilter}
         />
       )}
@@ -63,7 +63,7 @@ export default function CaseFilter({ filterObject, handleSetFilter }) {
 const FiltersDesktop = ({
   filterView,
   handleClose,
-  filterObject,
+  filterValue,
   submitfilter,
 }) => {
   const dropdownRef = useRef(null);
@@ -90,7 +90,7 @@ const FiltersDesktop = ({
       <div className="card">
         <FiltersMenu
           handleClose={handleClose}
-          filterObject={filterObject}
+          filterValue={filterValue}
           submitfilter={submitfilter}
         />
       </div>
@@ -101,7 +101,7 @@ const FiltersDesktop = ({
 const FiltersPhone = ({
   filterView,
   handleClose,
-  filterObject,
+  filterValue,
   submitfilter,
 }) => {
   return filterView ? (
@@ -115,7 +115,7 @@ const FiltersPhone = ({
       <div className="card w-100 rounded-bottom-0 border-0 overflow-y-auto">
         <FiltersMenu
           handleClose={handleClose}
-          filterObject={filterObject}
+          filterValue={filterValue}
           submitfilter={submitfilter}
         />
       </div>
@@ -123,12 +123,12 @@ const FiltersPhone = ({
   ) : null;
 };
 
-const FiltersMenu = ({ handleClose, filterObject, submitfilter }) => {
-  const [patient, setPatient] = useState(filterObject.patient);
-  const [doctor, setDoctor] = useState(filterObject.doctor);
-  const [beginDate, setBeginDate] = useState(filterObject.beginDate);
-  const [endDate, setEndDate] = useState(filterObject.endDate);
-  const [status, setStatus] = useState(filterObject.status);
+const FiltersMenu = ({ handleClose, filterValue, submitfilter }) => {
+  const [patient, setPatient] = useState(filterValue.patient);
+  const [doctor, setDoctor] = useState(filterValue.doctor);
+  const [beginDate, setBeginDate] = useState(filterValue.beginDate);
+  const [endDate, setEndDate] = useState(filterValue.endDate);
+  const [status, setStatus] = useState(filterValue.status);
 
   function handleSubmit() {
     const ValidData = {
@@ -176,7 +176,7 @@ const FiltersMenu = ({ handleClose, filterObject, submitfilter }) => {
           <DateInput title="to" value={endDate} setValue={setEndDate} />
         </div>
         <StatusInput
-          statusTypes={filterObject.status}
+          statusTypes={filterValue.status}
           title="status"
           value={status}
           setValue={setStatus}
