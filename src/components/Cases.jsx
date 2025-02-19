@@ -138,8 +138,8 @@ export default function Cases() {
               <tr className="">
                 <th
                   onClick={() => handleSort("patient")}
-                  className="ps-3 fw-medium"
-                  style={{ cursor: "pointer" }}
+                  className="fw-medium"
+                  style={{ cursor: "pointer", paddingInlineStart: "1rem" }}
                 >
                   {t("cases.patient")}
                 </th>
@@ -164,7 +164,12 @@ export default function Cases() {
                 >
                   {t("status")}
                 </th>
-                <th className="pe-3 text-end fw-medium">{t("actions")}</th>
+                <th
+                  className="fw-medium"
+                  style={{ textAlign: "end", paddingInlineEnd: "1rem" }}
+                >
+                  {t("actions")}
+                </th>
               </tr>
             </thead>
 
@@ -254,7 +259,7 @@ function TableRow({ indCase, handleOpenEditCase }) {
 
   return (
     <tr>
-      <td className="ps-3">{indCase.patient}</td>
+      <td style={{ paddingInlineStart: "1rem" }}>{indCase.patient}</td>
       <td>{indCase.doctorId}</td>
       <td>{indCase.dateOfEntery}</td>
       <td>
@@ -266,7 +271,7 @@ function TableRow({ indCase, handleOpenEditCase }) {
           {t("cases." + statusNames[indCase.status])}
         </span>
       </td>
-      <td className="pe-3 text-end ">
+      <td style={{ textAlign: "end", paddingInlineEnd: "1rem" }}>
         <Link
           className="link-body-emphasis small"
           onClick={() => handleOpenEditCase(indCase)}
