@@ -5,6 +5,7 @@ import { Outlet } from "react-router-dom";
 
 export default function MainLayout() {
   const sidebarWidth = "280px";
+  // const sidebarWidth = "auto";
 
   const dir = i18next.dir();
 
