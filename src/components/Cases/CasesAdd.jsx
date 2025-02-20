@@ -58,7 +58,7 @@ export default function CasesAdd({ viewAddCase, setViewAddCase }) {
           <DropDownInput
             title="cases.doctor"
             value={doctor}
-            setValuen={setDoctor}
+            setValue={setDoctor}
           />
           <DateInput
             title="cases.patient_birth_date"
