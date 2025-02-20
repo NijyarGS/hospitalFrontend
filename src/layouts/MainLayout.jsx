@@ -34,7 +34,7 @@ export default function MainLayout() {
       />
       <div
         className="d-flex flex-column h-100"
-        style={{ marginInlineStart: sidebarWidth }}
+        style={{ marginInlineStart: isMobile ? "" : sidebarWidth }}
       >
         <Header
           toggleSidebar={toggleSidebar}
