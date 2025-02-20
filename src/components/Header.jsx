@@ -5,7 +5,7 @@ export default function Header({ toggleSidebar, isSidebarDesktopOpen }) {
   const dir = i18next.dir();
 
   return (
-    <header className="bg-body p-3 container-fluid border-bottom">
+    <header className="bg-body py-3 px-4 container-fluid border-bottom">
       <section className="d-flex justify-content-between align-items-center">
         <div>
           <a
