@@ -105,15 +105,17 @@ export default function Cases() {
 
         <div className="position-relative">
           <CaseFilter filterValue={filters} handleSetFilter={handleSetFilter} />
-          <button className="btn btn-light btn-sm border">
-            <i className="bi bi-sort-down" />
-            <span
-              className="d-sm-inline d-none"
-              style={{ marginInlineStart: "0.25rem" }}
-            >
-              {t("cases.sort")}
-            </span>
-          </button>
+          {
+            // <button className="btn btn-light btn-sm border me-2 ">
+            // <i className="bi bi-sort-down" />
+            // <span
+            // className="d-sm-inline d-none"
+            // style={{ marginInlineStart: "0.25rem" }}
+            // >
+            // {t("cases.sort")}
+            // </span>
+            // </button>
+          }
         </div>
       </div>
       <div className="card-body px-0 pt-0 pb-0">
