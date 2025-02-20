@@ -231,6 +231,13 @@ function NotFoundData() {
 
 function TableRow({ indCase }) {
   const statusNames = { 1: "active", 2: "done" };
+  const doctorList = {
+    1: "Ahmed",
+    2: "Ali",
+    3: "Mohamed",
+    4: "Amr",
+    5: "Osama",
+  };
 
   const [viewEditCase, setViewEditCase] = useState(false);
   function handleOpenEditCase() {
@@ -250,7 +257,7 @@ function TableRow({ indCase }) {
       )}
       <tr>
         <td style={{ paddingInlineStart: "1rem" }}>{indCase.patient}</td>
-        <td>{indCase.doctorId}</td>
+        <td>{"Dr." + doctorList[indCase.doctorId]}</td>
         <td>{indCase.dateOfEntery}</td>
         <td>
           <span
