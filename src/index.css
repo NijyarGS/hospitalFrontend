@@ -5,17 +5,7 @@ body,
   min-height: 100dvh;
 }
 
-.custom_margin_start {
-  margin-inline-start: 0;
-}
-
 .custom_heigh_phone_modal {
   max-height: 90vh;
   overflow: hidden;
-}
-
-@media (min-width: 768px) {
-  .custom_margin_start {
-    margin-inline-start: 280px;
-  }
 }
