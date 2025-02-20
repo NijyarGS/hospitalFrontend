@@ -26,10 +26,12 @@ export default function CaseFilter({ filterValue, handleSetFilter }) {
   }
 
   const { t } = useTranslation();
+  const buttonRef = useRef();
 
   return (
     <Fragment>
       <button
+        ref={buttonRef}
         className="btn btn-light btn-sm border mx-2"
         onClick={() => handleSetFilterView()}
       >
@@ -54,6 +56,7 @@ export default function CaseFilter({ filterValue, handleSetFilter }) {
           handleClose={handleClose}
           filterValue={filterValue}
           submitfilter={submitfilter}
+          buttonRef={buttonRef}
         />
       )}
     </Fragment>
@@ -65,11 +68,16 @@ const FiltersDesktop = ({
   handleClose,
   filterValue,
   submitfilter,
+  buttonRef,
 }) => {
   const dropdownRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        !buttonRef.current.contains(event.target)
+      ) {
         handleClose();
       }
     };
