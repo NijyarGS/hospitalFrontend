@@ -127,6 +127,10 @@ export default function Cases() {
                   style={{ cursor: "pointer", paddingInlineStart: "1rem" }}
                 >
                   {t("cases.patient")}
+                  <i
+                    className="bi bi-caret-down small"
+                    style={{ marginInlineStart: "0.25rem" }}
+                  />
                 </th>
                 <th
                   onClick={() => handleSort("doctorId")}
@@ -134,6 +138,10 @@ export default function Cases() {
                   style={{ cursor: "pointer" }}
                 >
                   {t("cases.doctor")}
+                  <i
+                    className="bi bi-caret-down small"
+                    style={{ marginInlineStart: "0.25rem" }}
+                  />
                 </th>
                 <th
                   onClick={() => handleSort("dateOfEntery")}
@@ -141,6 +149,10 @@ export default function Cases() {
                   style={{ cursor: "pointer" }}
                 >
                   {t("date")}
+                  <i
+                    className="bi bi-caret-down small"
+                    style={{ marginInlineStart: "0.25rem" }}
+                  />
                 </th>
                 <th
                   onClick={() => handleSort("status")}
@@ -148,6 +160,10 @@ export default function Cases() {
                   style={{ cursor: "pointer" }}
                 >
                   {t("status")}
+                  <i
+                    className="bi bi-caret-down small"
+                    style={{ marginInlineStart: "0.25rem" }}
+                  />
                 </th>
                 <th
                   className="fw-medium"
