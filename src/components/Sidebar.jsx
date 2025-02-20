@@ -4,6 +4,7 @@ import i18next from "i18next";
 import { NavLink, useLocation } from "react-router-dom";
 import { Nav, Offcanvas, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
+import { Fragment } from "react";
 
 export default function Sidebar({
   sidebarWidth,
@@ -156,7 +157,7 @@ const NavSectionLink = ({ to, icon, title, smallMode = false }) => {
     <OverlayTrigger
       placement={toolTipPlacement}
       delay={{ show: 250, hide: 100 }}
-      overlay={smallMode ? <Tooltip>{t(title)}</Tooltip> : <></>}
+      overlay={smallMode ? <Tooltip>{t(title)}</Tooltip> : <Fragment />}
     >
       <NavLink
         to={to}
