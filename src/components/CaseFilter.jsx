@@ -32,7 +32,7 @@ export default function CaseFilter({ filterValue, handleSetFilter }) {
     <Fragment>
       <button
         ref={buttonRef}
-        className="btn btn-light btn-sm border mx-2"
+        className="btn btn-light btn-sm border"
         onClick={() => handleSetFilterView()}
       >
         <i className="bi bi-funnel" />
