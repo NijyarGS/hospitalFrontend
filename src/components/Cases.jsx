@@ -123,50 +123,34 @@ export default function Cases() {
           <table className="table table-hover table-borderless1 border-light mb-0">
             <thead className="border-bottom">
               <tr className="">
-                <th
-                  onClick={() => handleSort("patient")}
-                  className="fw-medium"
-                  style={{ cursor: "pointer", paddingInlineStart: "1rem" }}
+                <TableHeaderItem
+                  handleSort={handleSort}
+                  sortKey="patient"
+                  sortConfig={sortConfig}
                 >
                   {t("cases.patient")}
-                  <i
-                    className="bi bi-caret-down small"
-                    style={{ marginInlineStart: "0.25rem" }}
-                  />
-                </th>
-                <th
-                  onClick={() => handleSort("doctorId")}
-                  className="fw-medium"
-                  style={{ cursor: "pointer" }}
+                </TableHeaderItem>
+                <TableHeaderItem
+                  handleSort={handleSort}
+                  sortKey="doctorId"
+                  sortConfig={sortConfig}
                 >
                   {t("cases.doctor")}
-                  <i
-                    className="bi bi-caret-down small"
-                    style={{ marginInlineStart: "0.25rem" }}
-                  />
-                </th>
-                <th
-                  onClick={() => handleSort("dateOfEntery")}
-                  className="fw-medium"
-                  style={{ cursor: "pointer" }}
+                </TableHeaderItem>
+                <TableHeaderItem
+                  handleSort={handleSort}
+                  sortKey="dateOfEntery"
+                  sortConfig={sortConfig}
                 >
                   {t("date")}
-                  <i
-                    className="bi bi-caret-down small"
-                    style={{ marginInlineStart: "0.25rem" }}
-                  />
-                </th>
-                <th
-                  onClick={() => handleSort("status")}
-                  className="fw-medium"
-                  style={{ cursor: "pointer" }}
+                </TableHeaderItem>
+                <TableHeaderItem
+                  handleSort={handleSort}
+                  sortKey="status"
+                  sortConfig={sortConfig}
                 >
                   {t("status")}
-                  <i
-                    className="bi bi-caret-down small"
-                    style={{ marginInlineStart: "0.25rem" }}
-                  />
-                </th>
+                </TableHeaderItem>
                 <th
                   className="fw-medium"
                   style={{ textAlign: "end", paddingInlineEnd: "1rem" }}
@@ -405,5 +389,36 @@ function TablePatientSearch({ value, setValue }) {
         />
       </div>
     </form>
+  );
+}
+
+function TableHeaderItem({ children, handleSort, sortKey, sortConfig }) {
+  const { key, direction } = sortConfig;
+
+  // asc
+  // desc
+
+  const isSelected = key === sortKey;
+  const isAscend = direction === "asc";
+
+  return (
+    <th
+      onClick={() => handleSort(sortKey)}
+      className="fw-medium"
+      style={{ cursor: "pointer", minWidth: "5rem" }}
+    >
+      {children}
+      <span style={{ fontSize: "0.75rem", marginInlineStart: "0.25rem" }}>
+        {isSelected ? (
+          isAscend ? (
+            <i className="bi bi-caret-up-fill" />
+          ) : (
+            <i className="bi bi-caret-down-fill" />
+          )
+        ) : (
+          <i className="bi bi-caret-down" />
+        )}
+      </span>
+    </th>
   );
 }
