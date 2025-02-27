@@ -416,7 +416,7 @@ function TableHeaderItem({ children, handleSort, sortKey, sortConfig }) {
             <i className="bi bi-caret-down-fill" />
           )
         ) : (
-          <i className="bi bi-caret-down" />
+          <i className="bi bi-caret-down text-secondary" />
         )}
       </span>
     </th>
