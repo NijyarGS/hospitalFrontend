@@ -12,6 +12,12 @@ export default function CaseFilter({ filterValue, handleSetFilter }) {
   const [filterView, setFiltersView] = useState(false);
   const isMobile = useMediaQuery({ maxWidth: 575 });
 
+  const [doctorList, setDoctorList] = useState([]);
+
+  useEffect(() => {
+    getDoctorsData().then((e) => setDoctorList(e));
+  }, []);
+
   function handleSetFilterView(value = null) {
     value ? setFiltersView(value) : setFiltersView(!filterView);
   }
@@ -46,6 +52,7 @@ export default function CaseFilter({ filterValue, handleSetFilter }) {
       {isMobile ? (
         <FiltersPhone
           filterView={filterView}
+          doctorList={doctorList}
           handleClose={handleClose}
           filterValue={filterValue}
           submitfilter={submitfilter}
@@ -53,6 +60,7 @@ export default function CaseFilter({ filterValue, handleSetFilter }) {
       ) : (
         <FiltersDesktop
           filterView={filterView}
+          doctorList={doctorList}
           handleClose={handleClose}
           filterValue={filterValue}
           submitfilter={submitfilter}
@@ -65,6 +73,7 @@ export default function CaseFilter({ filterValue, handleSetFilter }) {
 
 const FiltersDesktop = ({
   filterView,
+  doctorList,
   handleClose,
   filterValue,
   submitfilter,
@@ -97,6 +106,7 @@ const FiltersDesktop = ({
     >
       <div className="card">
         <FiltersMenu
+          doctorList={doctorList}
           handleClose={handleClose}
           filterValue={filterValue}
           submitfilter={submitfilter}
@@ -108,6 +118,7 @@ const FiltersDesktop = ({
 
 const FiltersPhone = ({
   filterView,
+  doctorList,
   handleClose,
   filterValue,
   submitfilter,
@@ -123,6 +134,7 @@ const FiltersPhone = ({
       <div className="card w-100 rounded-bottom-0 border-0 overflow-y-auto">
         <FiltersMenu
           handleClose={handleClose}
+          doctorList={doctorList}
           filterValue={filterValue}
           submitfilter={submitfilter}
         />
@@ -131,18 +143,17 @@ const FiltersPhone = ({
   ) : null;
 };
 
-const FiltersMenu = ({ handleClose, filterValue, submitfilter }) => {
+const FiltersMenu = ({
+  handleClose,
+  doctorList,
+  filterValue,
+  submitfilter,
+}) => {
   const [patient, setPatient] = useState(filterValue.patient);
   const [doctor, setDoctor] = useState(filterValue.doctorId);
   const [beginDate, setBeginDate] = useState(filterValue.beginDate);
   const [endDate, setEndDate] = useState(filterValue.endDate);
   const [status, setStatus] = useState(filterValue.status);
-
-  const [doctorList, setDoctorList] = useState([]);
-
-  useEffect(() => {
-    getDoctorsData().then((e) => setDoctorList(e));
-  }, []);
 
   function handleSubmit() {
     const ValidData = {
@@ -278,7 +289,6 @@ const DateInput = ({ title, value, setValue }) => {
 
 const StatusInput = ({ statusTypes, title, value, setValue }) => {
   const { t } = useTranslation();
-  const dir = i18next.dir();
 
   return (
     <div>
