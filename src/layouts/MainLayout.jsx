@@ -14,10 +14,14 @@ export default function MainLayout() {
   // const sidebarWidth = "auto";
   const dir = i18next.dir();
 
-  function toggleSidebar() {
+  function toggleSidebar(showState = null) {
+    if (typeof showState !== "boolean" && showState !== null) {
+      throw new Error("showState must be a boolean or null");
+    }
+
     isMobile
-      ? setIsSidebarMobileOpen((prev) => !prev)
-      : setIsSidebarDesktopOpen((prev) => !prev);
+      ? setIsSidebarMobileOpen(showState ? showState : (prev) => !prev)
+      : setIsSidebarDesktopOpen(showState ? showState : (prev) => !prev);
   }
 
   return (

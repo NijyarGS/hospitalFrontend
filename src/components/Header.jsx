@@ -13,7 +13,7 @@ export default function Header({ toggleSidebar, isSidebarDesktopOpen }) {
               isSidebarDesktopOpen ? "link-body-emphesis" : "link-primary"
             }`}
             style={{ cursor: "pointer" }}
-            onClick={toggleSidebar}
+            onClick={() => toggleSidebar()}
           >
             <MenuIcon isSidebarDesktopOpen={isSidebarDesktopOpen} dir={dir} />
           </a>

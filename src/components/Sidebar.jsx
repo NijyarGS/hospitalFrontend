@@ -4,7 +4,7 @@ import i18next from "i18next";
 import { NavLink, useLocation } from "react-router-dom";
 import { Nav, Offcanvas, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 
 export default function Sidebar({
   sidebarWidth,
@@ -27,6 +27,11 @@ const MobileNav = ({ show, toggleSidebar }) => {
   const dir = i18next.dir();
   const placement = dir === "ltr" ? "start" : "end";
 
+  const location = useLocation();
+  useEffect(() => {
+    toggleSidebar(false);
+  }, [location.pathname]);
+
   return (
     <Offcanvas
       show={show}
@@ -38,7 +43,10 @@ const MobileNav = ({ show, toggleSidebar }) => {
       <Offcanvas.Body>
         <div className="d-flex justify-content-between align-items-center">
           <NavHeader />
-          <span onClick={toggleSidebar} className="btn-close small"></span>
+          <span
+            onClick={() => toggleSidebar(false)}
+            className="btn-close small"
+          ></span>
         </div>
 
         <NavMenu />
