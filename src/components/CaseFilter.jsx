@@ -237,7 +237,7 @@ const TextInput = ({ title, value, setValue }) => {
     <div className="mb-3">
       <label className="form-label">{t(title)}</label>
       <input
-        className="form-control"
+        className={`form-control ${value && "border-primary-subtle"}`}
         type="text"
         value={value}
         onChange={(e) => setValue(e.target.value)}
@@ -255,7 +255,7 @@ const DropDownInput = ({ title, value, setValue, doctorList }) => {
     <div className="mb-3">
       <label className="form-label">{t(title)}</label>
       <select
-        className="form-select"
+        className={`form-select ${value && "border-primary-subtle"}`}
         value={value}
         onChange={(e) => setValue(e.target.value)}
       >
@@ -278,7 +278,7 @@ const DateInput = ({ title, value, setValue }) => {
     <div className="">
       <label className="form-label">{t(title)}</label>
       <input
-        className="form-control"
+        className={`form-control ${value && "border-primary-subtle"}`}
         type="Date"
         value={value}
         onChange={(e) => setValue(e.target.value)}
