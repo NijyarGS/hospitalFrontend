@@ -30,6 +30,7 @@
   },
   "cases": {
     "cases": "Cases",
+    "no_case_found": "No Cases found",
     "edit": "Edit Case",
     "add": "Add Case",
     "filter": "Filter",
@@ -40,6 +41,8 @@
     "patient_search": "Patient Search...",
     "doctor": "Doctor",
     "doctor_select": "Select doctor",
+    "doctor_search": "Search for Doctor...",
+    "no_doctor_found": "Doctor not found !",
     "date_note": "Date format: Month / Day / Year",
     "gender": "Patient Gender",
     "male": "Male",

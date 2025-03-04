@@ -9,6 +9,7 @@ import ControlledDateInput from "../Inputs/ControlledDateInput";
 import ControlledRadialGroup from "../Inputs/ControlledRadialGroup";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
+import ControlledDropDownSearchInput from "../Inputs/ControlledDropDownSeachInput";
 
 export default function CasesEdit({
   caseEditData,
@@ -75,7 +76,18 @@ export default function CasesEdit({
             originalValue={caseEditData.patient}
             setValue={setPatient}
           />
-          <ControlledDropDownInput
+
+          {
+            //   <ControlledDropDownInput
+            //   title="cases.doctor"
+            //   value={doctor}
+            //   originalValue={caseEditData.doctorId}
+            //   setValue={setDoctor}
+            //   dataList={doctorList}
+            //   defaultSelectTitle={"cases.doctor_select"}
+            // />
+          }
+          <ControlledDropDownSearchInput
             title="cases.doctor"
             value={doctor}
             originalValue={caseEditData.doctorId}
