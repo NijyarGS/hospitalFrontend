@@ -127,6 +127,7 @@ export default function Cases() {
                   handleSort={handleSort}
                   sortKey="patient"
                   sortConfig={sortConfig}
+                  first={true}
                 >
                   {t("cases.patient")}
                 </TableHeaderItem>
@@ -393,7 +394,13 @@ function TablePatientSearch({ value, setValue }) {
   );
 }
 
-function TableHeaderItem({ children, handleSort, sortKey, sortConfig }) {
+function TableHeaderItem({
+  children,
+  handleSort,
+  sortKey,
+  sortConfig,
+  first = false,
+}) {
   const { key, direction } = sortConfig;
 
   // asc
@@ -406,7 +413,11 @@ function TableHeaderItem({ children, handleSort, sortKey, sortConfig }) {
     <th
       onClick={() => handleSort(sortKey)}
       className="fw-medium"
-      style={{ cursor: "pointer", minWidth: "5rem" }}
+      style={{
+        cursor: "pointer",
+        minWidth: "5rem",
+        paddingInlineStart: first ? "1rem" : "",
+      }}
     >
       {children}
       <span style={{ fontSize: "0.75rem", marginInlineStart: "0.25rem" }}>
