@@ -217,11 +217,12 @@ function PlaceholderData() {
 }
 
 function NotFoundData() {
+  const { t } = useTranslation();
   return (
     <tr>
       <td colSpan="100">
         <div className="text-secondary fw-light fst-italic d-flex justify-content-center">
-          <span className="mx-2">No Cases found</span>
+          <span className="mx-2">{t("cases.no_case_found")}</span>
           <span style={{ transform: "scale(-1, 1)" }}>
             <i className="bi bi-search" />
           </span>

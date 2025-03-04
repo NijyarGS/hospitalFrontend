@@ -18,7 +18,7 @@ export default function ControlledDropDownInput({
       <label className="form-label">{t(title)}</label>
       <select
         className={`form-control ${
-          originalValue !== value ? "border-warning" : ""
+          originalValue != value ? "border-warning" : ""
         }`}
         value={value}
         onChange={(e) => setValue(e.target.value)}

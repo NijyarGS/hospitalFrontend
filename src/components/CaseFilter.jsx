@@ -7,6 +7,7 @@ import { Modal } from "react-bootstrap";
 import { useRef } from "react";
 import i18next from "i18next";
 import { useTranslation } from "react-i18next";
+import DropDownSearchInput from "./Inputs/DropDownSeachInput";
 
 export default function CaseFilter({ filterValue, handleSetFilter }) {
   const [filterView, setFiltersView] = useState(false);
@@ -190,11 +191,12 @@ const FiltersMenu = ({
           value={patient}
           setValue={setPatient}
         />
-        <DropDownInput
+        <DropDownSearchInput
           title="cases.doctor"
           value={doctor}
           setValue={setDoctor}
           doctorList={doctorList}
+          outerGlow={true}
         />
 
         <div className="d-flex flex-sm-row flex-column gap-2 mb-3">
@@ -242,31 +244,6 @@ const TextInput = ({ title, value, setValue }) => {
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
-    </div>
-  );
-};
-
-const DropDownInput = ({ title, value, setValue, doctorList }) => {
-  const renderDoctorList = doctorList && doctorList.length > 0;
-
-  const { t } = useTranslation();
-
-  return (
-    <div className="mb-3">
-      <label className="form-label">{t(title)}</label>
-      <select
-        className={`form-select ${value && "border-primary-subtle"}`}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      >
-        <option value="">{t("cases.doctor_select")}</option>
-        {renderDoctorList &&
-          doctorList.map((doc) => (
-            <option key={"docOpt" + doc.id} value={doc.id}>
-              {doc.name}
-            </option>
-          ))}
-      </select>
     </div>
   );
 };

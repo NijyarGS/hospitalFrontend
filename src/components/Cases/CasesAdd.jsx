@@ -5,12 +5,18 @@ import { useEffect, useState } from "react";
 import { getDoctorsData } from "../../services";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
+import DropDownSearchInput from "../Inputs/DropDownSeachInput";
 
 export default function CasesAdd({ viewAddCase, setViewAddCase }) {
   const [patient, setPatient] = useState("");
   const [doctor, setDoctor] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [gender, setGender] = useState("");
+  const [doctorList, setDoctorList] = useState([]);
+
+  useEffect(() => {
+    getDoctorsData().then((e) => setDoctorList(e));
+  }, []);
 
   function submitCase(e) {
     e.preventDefault();
@@ -55,10 +61,12 @@ export default function CasesAdd({ viewAddCase, setViewAddCase }) {
             value={patient}
             setValue={setPatient}
           />
-          <DropDownInput
+
+          <DropDownSearchInput
             title="cases.doctor"
             value={doctor}
             setValue={setDoctor}
+            doctorList={doctorList}
           />
           <DateInput
             title="cases.patient_birth_date"
@@ -105,38 +113,6 @@ const TextInput = ({ title, value, setValue }) => {
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
-    </div>
-  );
-};
-
-const DropDownInput = ({ title, value, setValue }) => {
-  const [doctorList, setDoctorList] = useState([]);
-  const renderDoctorList = doctorList && doctorList.length > 0;
-
-  useEffect(() => {
-    getDoctorsData().then((e) => setDoctorList(e));
-  }, []);
-
-  const { t } = useTranslation();
-  return (
-    <div className="mb-3">
-      <label className="form-label">{t(title)}</label>
-      <select
-        className="form-select"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        required
-      >
-        <option value="" hidden>
-          {t("cases.doctor_select")}
-        </option>
-        {renderDoctorList &&
-          doctorList.map((doc) => (
-            <option key={"docOpt" + doc.id} value={doc.id}>
-              {doc.name}
-            </option>
-          ))}
-      </select>
     </div>
   );
 };
